@@ -1,5 +1,5 @@
 [build]
   # Usando Node.js como ambiente de construção
   builder = "nodejs"
-  install_command = "npm ci --omit=dev"  # Comando para instalar dependências sem devDependencies
-  start_command = "npm run start"  # Comando para iniciar a aplicação
+  install_command = "npm ci --omit=dev" 
+  start_command = "npm run start" 
