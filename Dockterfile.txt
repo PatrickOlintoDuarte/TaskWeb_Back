@@ -1,0 +1,1 @@
+RUN --mount=type=cache,id=s/4dedc5ea-cde5-4ae9-9a29-85e609f15371-/root/npm,target=/root/.npm npm ci --omit=dev
