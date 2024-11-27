@@ -68,6 +68,10 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const branchName = req.body.branch; // Branch desejada
     const gitToken = process.env.GIT_TOKEN;
 
+    if (!gitToken) {
+        return res.status(500).send('GIT_TOKEN não está definido.');
+    }
+
     // Caminho do arquivo a ser movido para o diretório do repositório
     const oldPath = file.path;
     const newPath = path.join(REPO_DIR, file.originalname);
