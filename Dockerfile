@@ -4,11 +4,11 @@ FROM node:18
 # Definir o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copiar o arquivo package.json e package-lock.json (se existir)
+# Copiar o arquivo package.json e package-lock.json
 COPY package*.json ./
 
 # Instalar as dependências do projeto
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Copiar o restante do código do projeto
 COPY . .
