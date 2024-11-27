@@ -49,6 +49,11 @@ async function verificaBranch(remoteUrl, branch) {
     }
 }
 
+// Adicionando uma rota para a raiz ("/")
+app.get('/', (req, res) => {
+    res.send('Bem-vindo ao backend do TaskWeb!');
+});
+
 // Rota para lidar com o upload de arquivos
 app.post('/upload', upload.single('file'), async (req, res) => {
     const remoteUrl = req.body.projeto;
