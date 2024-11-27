@@ -94,12 +94,12 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         fs.renameSync(oldPath, newPath); // Mover o arquivo
         console.log('Arquivo movido com sucesso para o diretório do repositório:', newPath);
 
-        // Adiciona o arquivo ao repositório (sobrescrevendo se existir)
+        // Adiciona e compromete o arquivo ao repositório (sobrescrevendo se existir)
         console.log(`Adicionando o arquivo '${file.originalname}' ao repositório...`);
-        await gitRepo.add(file.originalname);
+        await gitRepo.add('.');
         console.log('Arquivo adicionado ao Git.');
 
-        // Faz commit do novo conteúdo
+        // Faz commit do novo conteúdo, mesmo que seja uma atualização
         const commitMessage = `Atualizado o arquivo ${file.originalname}`;
         await gitRepo.commit(commitMessage);
         console.log('Commit realizado com sucesso.');
