@@ -95,7 +95,3 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 // Iniciar o servidor
-const PORT = process.env.PORT || 3000; // Usa a porta definida pelo Railway ou 3000 como fallback
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
