@@ -25,7 +25,13 @@ async function limparDiretorio() {
 // Função para verificar se uma branch existe remotamente
 async function verificaBranch(remoteUrl, branch) {
     try {
-        await git.clone(remoteUrl.replace('https://', `https://${process.env.GIT_TOKEN}@`), REPO_DIR, ['--no-checkout', '--depth', '1']);
+        const gitToken = process.env.GIT_TOKEN;
+        if (!gitToken) {
+            throw new Error("GIT_TOKEN não está definido.");
+        }
+
+        const remoteWithToken = remoteUrl.replace('https://', `https://${gitToken}@`);
+        await git.clone(remoteWithToken, REPO_DIR, ['--no-checkout', '--depth', '1']);
         const gitRepo = simpleGit(REPO_DIR);
         const branchSummary = await gitRepo.branch(['-r']);
 
@@ -71,7 +77,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         await limparDiretorio();
 
         // Verifica e cria a branch remota, se necessário
-        await verificaBranch(remoteUrl.replace('https://', `https://${gitToken}@`), branchName);
+        await verificaBranch(remoteUrl, branchName);
 
         // Inicializa o Git no diretório clonado
         const gitRepo = simpleGit(REPO_DIR);
