@@ -75,6 +75,10 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         // Inicializa o Git no diretório clonado
         const gitRepo = simpleGit(REPO_DIR);
 
+        // Adiciona as informações do usuário ao repositório Git
+        await gitRepo.addConfig('user.name', 'Patrick Olinto Duarte');
+        await gitRepo.addConfig('user.email', 'olintopatrick86@gmail.com');
+
         // Mover o novo arquivo para o diretório do repositório
         fs.renameSync(oldPath, newPath); // Mover o arquivo
         console.log('Arquivo movido com sucesso para o diretório do repositório:', newPath);
