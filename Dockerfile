@@ -13,7 +13,7 @@ RUN npm ci --omit=dev
 # Copiar o restante do código do projeto
 COPY . .
 
-# Construir o aplicativo
+# Construir o aplicativo (ajuste conforme necessário)
 RUN npm run build
 
 # Expôr a porta que o aplicativo vai usar
