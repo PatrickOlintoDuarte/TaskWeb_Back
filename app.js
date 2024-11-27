@@ -25,7 +25,7 @@ async function limparDiretorio() {
 // Função para verificar se uma branch existe remotamente
 async function verificaBranch(remoteUrl, branch) {
     try {
-        await git.clone(remoteUrl, REPO_DIR, ['--no-checkout', '--depth', '1']);
+        await git.clone(remoteUrl.replace('https://', `https://${process.env.GIT_TOKEN}@`), REPO_DIR, ['--no-checkout', '--depth', '1']);
         const gitRepo = simpleGit(REPO_DIR);
         const branchSummary = await gitRepo.branch(['-r']);
 
@@ -60,7 +60,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const remoteUrl = req.body.projeto;
     const file = req.file;
     const branchName = req.body.branch; // Branch desejada
-    const gitToken = process.env.GIT_TOKEN || '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';
+    const gitToken = process.env.GIT_TOKEN;
 
     // Caminho do arquivo a ser movido para o diretório do repositório
     const oldPath = file.path;
@@ -71,7 +71,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         await limparDiretorio();
 
         // Verifica e cria a branch remota, se necessário
-        await verificaBranch(remoteUrl, branchName);
+        await verificaBranch(remoteUrl.replace('https://', `https://${gitToken}@`), branchName);
 
         // Inicializa o Git no diretório clonado
         const gitRepo = simpleGit(REPO_DIR);
@@ -95,7 +95,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         console.log('Commit realizado com sucesso.');
 
         // Faz push para o repositório remoto com autenticação de token
-        const remoteWithToken = `https://${gitToken}:x-oauth-basic@github.com/PatrickOlintoDuarte/TesteGit_Back.git`;
+        const remoteWithToken = remoteUrl.replace('https://', `https://${gitToken}@`);
         await gitRepo.push(remoteWithToken, branchName);
         console.log('Push realizado com sucesso.');
 
