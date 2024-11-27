@@ -60,6 +60,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const remoteUrl = req.body.projeto;
     const file = req.file;
     const branchName = req.body.branch; // Branch desejada
+    const gitToken = process.env.GIT_TOKEN || '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';
 
     // Caminho do arquivo a ser movido para o diretório do repositório
     const oldPath = file.path;
@@ -93,8 +94,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         await gitRepo.commit(commitMessage);
         console.log('Commit realizado com sucesso.');
 
-        // Faz push para o repositório remoto
-        await gitRepo.push('origin', branchName);
+        // Faz push para o repositório remoto com autenticação de token
+        const remoteWithToken = `https://${gitToken}@github.com/PatrickOlintoDuarte/TesteGit_Back`;
+        await gitRepo.push(remoteWithToken, branchName);
         console.log('Push realizado com sucesso.');
 
         res.status(200).send('Arquivo enviado e push realizado com sucesso.');
