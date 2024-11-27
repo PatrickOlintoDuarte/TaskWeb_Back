@@ -44,7 +44,7 @@ async function verificaBranch(remoteUrl, branch) {
             // Faz um commit inicial para permitir o push da nova branch
             fs.writeFileSync(path.join(REPO_DIR, 'README.md'), '# Repositório Inicial\n'); // Adiciona um arquivo para o commit
             await gitRepo.add('README.md');
-            await gitRepo.commit('Commit inicial para criar a branch main');
+            await gitRepo.commit('Commit inicial para criar a branch');
             await gitRepo.push(['-u', 'origin', branch]); // Faz push da nova branch
         } else {
             await gitRepo.checkout(branch);
