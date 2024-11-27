@@ -9,7 +9,8 @@ const app = express();
 const git = simpleGit();
 const REPO_DIR = path.join(__dirname, 'repo'); // Diretório temporário do repositório local
 
-app.use(cors());
+// Configuração do CORS
+app.use(cors({ origin: '*' }));
 
 // Configuração do multer para armazenar os arquivos enviados temporariamente no servidor
 const upload = multer({ dest: 'uploads/' });
