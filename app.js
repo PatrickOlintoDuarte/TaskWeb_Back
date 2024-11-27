@@ -30,7 +30,7 @@ async function verificaBranch(remoteUrl, branch) {
             throw new Error("GIT_TOKEN não está definido.");
         }
 
-        const remoteWithToken = remoteUrl.replace('https://', `https://${gitToken}@`);
+        const remoteWithToken = remoteUrl.replace('https://', `https://${gitToken}:x-oauth-basic@`);
         await git.clone(remoteWithToken, REPO_DIR, ['--no-checkout', '--depth', '1']);
         const gitRepo = simpleGit(REPO_DIR);
         const branchSummary = await gitRepo.branch(['-r']);
@@ -105,7 +105,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         console.log('Commit realizado com sucesso.');
 
         // Faz push para o repositório remoto com autenticação de token
-        const remoteWithToken = `https://${gitToken}@github.com/PatrickOlintoDuarte/TesteGit_Back.git`;
+        const remoteWithToken = `https://${gitToken}:x-oauth-basic@github.com/PatrickOlintoDuarte/TesteGit_Back.git`;
         await gitRepo.push(remoteWithToken, branchName);
         console.log('Push realizado com sucesso.');
 
