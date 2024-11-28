@@ -105,7 +105,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         console.log('Commit realizado com sucesso.');
 
         // Configurar remote com token de forma explícita
-        const remoteWithToken = `https://${gitToken}:x-oauth-basic@github.com/PatrickOlintoDuarte/TesteGit_Back.git`;
+        const remoteWithToken = remoteUrl.replace('https://', `https://${gitToken}:x-oauth-basic@`);
         await gitRepo.removeRemote('origin').catch(() => console.log('Remote "origin" não existe, prosseguindo.'));
         await gitRepo.addRemote('origin', remoteWithToken);
 
